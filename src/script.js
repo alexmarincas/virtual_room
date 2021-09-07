@@ -10,6 +10,9 @@ import { gsap } from 'gsap'
 const addBtn = document.querySelector('.add-btn')
 const editBtn = document.querySelector('#edit')
 const loadingBarElement = document.querySelector('.loading-bar')
+const scaling_holder = document.querySelector('.scaling-holder')
+const scale_up = document.querySelector('.scale-up')
+const scale_down = document.querySelector('.scale-down')
 
 /**
  * Scene
@@ -320,15 +323,18 @@ dragControls.addEventListener('dragend', function (event) {
 /**
  * Click events
  */
+let elementSelected = null
  css3DContainer.addEventListener("click", function(){
     raycaster.setFromCamera( mouse, camera )
     Array.from(document.querySelectorAll(".chair-holder")).forEach(el => el.style.opacity = 1)
+    scaling_holder.classList.remove('show')
 	const intersects = raycaster.intersectObjects( scene.children, true )
     for(let x=0; x< intersects.length; x++){
         if(intersects[x].object.geometry.type!=='SphereGeometry' && intersects[x].object.geometry.type!=='BufferGeometry' && intersects[x].object.geometry.type!=='PlaneGeometry' ){
             const currentObj = intersects[x].object
             const parent = chairsGroup.children.filter(obj => obj.uuid === currentObj.parentID)
             const sibling = parent[0].children[0]
+            elementSelected = parent
 
             if(allowEdit){
 
@@ -339,12 +345,42 @@ dragControls.addEventListener('dragend', function (event) {
                 sibling.element.style.opacity = .2
                 // use boolean values to check if element is clicked (selected) and based on this
                 // show-hide scale down / scale up buttons
+                scaling_holder.classList.add('show')
             }else{
 
             }
         }
     }
  })
+
+ /***
+  * Scale elements
+  */
+scale_up.addEventListener("click", function(){
+    const css_el = elementSelected[0].children[0]
+    const webgl_el = elementSelected[0].children[1]
+
+    let initialScale = webgl_el.scale
+    let newXscale = initialScale.x + 0.1
+    let newYscale = initialScale.y + 0.1
+    css_el.scale.x = newXscale
+    webgl_el.scale.x = newXscale
+    css_el.scale.y = newYscale
+    webgl_el.scale.y = newYscale
+})
+scale_down.addEventListener("click", function(){
+    const css_el = elementSelected[0].children[0]
+    const webgl_el = elementSelected[0].children[1]
+
+    let initialScale = webgl_el.scale
+    let newXscale = initialScale.x - 0.1
+    let newYscale = initialScale.y - 0.1
+    css_el.scale.x = newXscale
+    webgl_el.scale.x = newXscale
+    css_el.scale.y = newYscale
+    webgl_el.scale.y = newYscale
+})
+
 
 /**
  * Animate

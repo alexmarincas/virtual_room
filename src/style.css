@@ -137,3 +137,39 @@ body {
     transform-origin: 100% 0;
     transition: transform 1.5s ease-in-out;
 }
+
+.scaling-holder{
+    position: fixed;
+    right: 0;
+    width: 100px;
+    top: 50%;
+    transform: translate(100%, -50%);
+    height: 300px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    place-items: center;
+    transition: transform .3s ease-in-out;
+}
+
+.scaling-holder.show{
+    transform: translate(0, -50%);
+}
+
+.scaling-holder div{
+    width: 60px;
+    height: 60px;
+    display: grid;
+    place-content: center;
+    border-radius: 50%;
+    background-color: #96bb72;
+    color: white;   
+    transition: all .3s ease-in-out; 
+    font-size: 1.5em;
+}
+
+.scaling-holder div:hover{
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(0,0,0,.16);
+    background-color: #81a061;
+}
