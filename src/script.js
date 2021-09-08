@@ -13,6 +13,7 @@ const loadingBarElement = document.querySelector('.loading-bar')
 const scaling_holder = document.querySelector('.scaling-holder')
 const scale_up = document.querySelector('.scale-up')
 const scale_down = document.querySelector('.scale-down')
+const crosshairElement = document.querySelector('.crosshair')
 
 /**
  * Scene
@@ -66,8 +67,8 @@ window.addEventListener( 'mousemove', onMouseMove, false )
 const controls = new OrbitControls(camera, css3DContainer)
 controls.enableDamping = true
 controls.rotateSpeed = 2
-controls.enablePan = true
-controls.enableZoom = true
+controls.enablePan = false
+controls.enableZoom = false
 
   
 // Block iframe events when dragging camera
@@ -100,6 +101,7 @@ loadingManager.onLoad = () =>
         gsap.to(css3DContainer, { duration: 3, opacity: 1, zIndex: 1, delay: 1 })
 
         loadingBarElement.classList.add('ended')
+        crosshairElement.classList.add('visible')
         loadingBarElement.style.transform = ''
     }, 500)
 }
