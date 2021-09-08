@@ -327,6 +327,7 @@ body {
     text-align: center;
     color: rgba(255, 255, 255, .5);
     animation: staticAnim 7s infinite linear reverse;
+    font-size: 1.5rem;
 }
 
 .crosshair span:nth-child(1){
@@ -366,4 +367,51 @@ body {
         transform: scale(1);
         opacity: .3;
     }
+}
+
+.cross-holder{
+    position: fixed;
+    top: 30px;
+    left: 30px;
+    text-align: center;
+}
+
+.cross-holder::after{
+    content: "Crosshair";
+    position: absolute;
+    width: fit-content;
+    width: 80px;
+    text-align: center;
+    border-radius: 3px;
+    color: #FFF;
+    left: 50%;
+    opacity: 0;
+    transform: translate(-50%, 0);
+    pointer-events: none;
+    transition: all .3s ease-in-out;
+}
+
+.cross-holder:hover::after{
+    transform: translate(-50%, 30px);
+    opacity: 1;
+}
+
+.cross-holder #show_cross{
+    display: none;
+}
+
+.cross-holder svg{
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, .3);
+    opacity: .3;
+    transition: all .3s ease-in-out;
+}
+
+#show_cross:checked ~ label svg{
+    color: turquoise;
+}
+
+.cross-holder svg:hover{
+    opacity: 1;
+    cursor: pointer;
 }

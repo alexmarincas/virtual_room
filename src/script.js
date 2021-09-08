@@ -14,6 +14,7 @@ const scaling_holder = document.querySelector('.scaling-holder')
 const scale_up = document.querySelector('.scale-up')
 const scale_down = document.querySelector('.scale-down')
 const crosshairElement = document.querySelector('.crosshair')
+const showCrosshair = document.querySelector('#show_cross')
 
 /**
  * Scene
@@ -101,7 +102,7 @@ loadingManager.onLoad = () =>
         gsap.to(css3DContainer, { duration: 3, opacity: 1, zIndex: 1, delay: 1 })
 
         loadingBarElement.classList.add('ended')
-        crosshairElement.classList.add('visible')
+        showCrosshair.checked && crosshairElement.classList.add('visible')
         loadingBarElement.style.transform = ''
     }, 500)
 }
@@ -432,6 +433,17 @@ scale_down.addEventListener("click", function(){
     webgl_el.scale.x = newXscale
     css_el.scale.y = newYscale
     webgl_el.scale.y = newYscale
+})
+
+/**
+ * Toggle crosshair visibility
+ */
+showCrosshair.addEventListener("change", function(){
+    if(this.checked){
+        crosshairElement.classList.add('visible')
+    }else{
+        crosshairElement.classList.remove('visible')
+    }
 })
 
 
