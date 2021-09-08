@@ -1,0 +1,56 @@
+.edit-btn{
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    display: inline-block;
+    margin: 0 auto;
+    
+    .checkbox{
+      display:none;
+      
+      &:checked + label .slider-btn {
+        background: #45c1e0 url(https://cdn1.iconfinder.com/data/icons/material-core/18/check-16.png) 15% 50% no-repeat;
+      }
+      
+      &:checked + label .slider-btn:after{
+        margin-left: 100%;
+        background: linear-gradient(to right, #ececec, #f3f3f3);
+        transform: translateX(-100%) rotate(180deg);
+      }
+    }
+    
+    .slider-btn{
+        position: relative;
+        display: block;
+        box-sizing: content-box;
+        width: 100px;
+        border: 3px solid;
+        border-top-color: #f3f3f3;
+        border-left-color: #f3f3f3;
+        border-bottom-color: #e6e6e6;
+        border-right-color: #e6e6e6;
+        border-radius: 23px;
+        height: 40px;
+        margin: 0 auto;
+        transition: all .3s ease-in-out;
+        box-shadow: inset 0 0 7px rgba(0, 0, 0, 0.3);
+        background: #7f7f7f url(https://cdn3.iconfinder.com/data/icons/virtual-notebook/16/button_close-16.png) 85% 50% no-repeat;
+        cursor: pointer;
+  
+        &::after{
+          content: "";
+          position: absolute;
+          height: 40px;
+          width: 40px;
+          border-radius: 50%;
+          background: linear-gradient(to right, #bbbbbb, #f3f3f3);
+          transition: all .3s ease-in-out;
+          border: 4px solid #FFF;
+          box-shadow: 5px 0 5px rgba(0, 0, 0, 0.2);
+          box-sizing: border-box;
+        }
+    }
+}
+  
+  
+  

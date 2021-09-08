@@ -66,8 +66,8 @@ window.addEventListener( 'mousemove', onMouseMove, false )
 const controls = new OrbitControls(camera, css3DContainer)
 controls.enableDamping = true
 controls.rotateSpeed = 2
-controls.enablePan = false
-controls.enableZoom = false
+controls.enablePan = true
+controls.enableZoom = true
 
   
 // Block iframe events when dragging camera
@@ -119,15 +119,15 @@ const colorTexture = textureLoader.load(
     '/textures/bg_huge.jpg',
     () =>
     {
-        console.log('textureLoader: loading finished')
+        // console.log('textureLoader: loading finished')
     },
     () =>
     {
-        console.log('textureLoader: loading progressing')
+        // console.log('textureLoader: loading progressing')
     },
     () =>
     {
-        console.log('textureLoader: loading error')
+        // console.log('textureLoader: loading error')
     }
 )
 // colorTexture.wrapS = THREE.MirroredRepeatWrapping
@@ -178,7 +178,6 @@ scene.add(overlay)
  * Object
  */
 const geometry = new THREE.SphereGeometry(1000, 64, 64)
-console.log(geometry.attributes)
 const material = new THREE.MeshBasicMaterial({ map: colorTexture , side: BackSide })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
@@ -238,12 +237,14 @@ function ChairElement() {
     const obj = new THREE.Object3D
     mesh.parentID = obj.uuid  
     obj.add(object)
-    console.log(mesh)
     obj.add(mesh)
 
     control.attach(obj)
     control.position.set( object.position )
     control.rotation.set( object.rotation )
+
+    obj.seat_empty = true
+    obj.iSitOnIt = false
     
     return obj
     
@@ -289,7 +290,16 @@ scene.add( root )
 let allowEdit = true
 
 editBtn.addEventListener("change", function(){
-    allowEdit = this.checked ? true : false
+    if(!this.checked && elementSelected!==null && elementSelected[0].seat_empty){    
+        elementSelected[0].children[0].element.children[0].src = 'textures/emptySeat.png' 
+        scaling_holder.classList.remove('show')             
+    }
+    allowEdit = this.checked ? true : false    
+    if(allowEdit){
+        addBtn.classList.add('visible')
+    }else{        
+        addBtn.classList.remove('visible')
+    }
 })
 
 const dragControls = new DragControls(chairsGroup.children, camera, css3DRenderer.domElement)
@@ -324,10 +334,21 @@ dragControls.addEventListener('dragend', function (event) {
  * Click events
  */
 let elementSelected = null
+let lastSeatISitOn = ''
  css3DContainer.addEventListener("click", function(){
+
     raycaster.setFromCamera( mouse, camera )
-    Array.from(document.querySelectorAll(".chair-holder")).forEach(el => el.style.opacity = 1)
+
+    // Array.from(document.querySelectorAll(".chair-holder")).forEach(el => el.style.opacity = 1)
+
+    if(elementSelected!==null && allowEdit){
+        if(elementSelected[0].seat_empty){
+            elementSelected[0].children[0].element.children[0].src = 'textures/emptySeat.png'
+        }
+    }
+
     scaling_holder.classList.remove('show')
+
 	const intersects = raycaster.intersectObjects( scene.children, true )
     for(let x=0; x< intersects.length; x++){
         if(intersects[x].object.geometry.type!=='SphereGeometry' && intersects[x].object.geometry.type!=='BufferGeometry' && intersects[x].object.geometry.type!=='PlaneGeometry' ){
@@ -337,17 +358,47 @@ let elementSelected = null
             elementSelected = parent
 
             if(allowEdit){
-
-                console.log(currentObj.position)
                 // sintaxa buna pentru navigarea intre scene
                 // controls.target.set(currentObj.position.x, currentObj.position.y, currentObj.position.z)
                 
-                sibling.element.style.opacity = .2
-                // use boolean values to check if element is clicked (selected) and based on this
-                // show-hide scale down / scale up buttons
+                if(elementSelected[0].seat_empty)
+                    sibling.element.children[0].src = 'textures/emptySeatHighlighted.png'
+
                 scaling_holder.classList.add('show')
+
             }else{
 
+                scaling_holder.classList.remove('show')
+
+                if(parent[0].seat_empty){
+                    
+                    if(!lastSeatISitOn){
+                        sibling.element.children[0].src = 'textures/avatar.jpg'
+                        parent[0].iSitOnIt = true
+                        parent[0].seat_empty = false
+                        lastSeatISitOn = sibling.uuid
+                    }else{
+                        if(lastSeatISitOn !== sibling.uuid ){
+
+                            sibling.element.children[0].src = 'textures/avatar.jpg'
+                            const lastEl = chairsGroup.children.filter(obj => obj.children[0].uuid === lastSeatISitOn)
+                            lastEl[0].children[0].element.children[0].src = 'textures/emptySeat.png'
+                            lastEl[0].iSitOnIt = false
+                            lastEl[0].seat_empty = true
+                            lastSeatISitOn = sibling.uuid
+                        }else{
+                            sibling.element.children[0].src = 'textures/avatar.jpg'
+                        }
+                        parent[0].iSitOnIt = true
+                        parent[0].seat_empty = false
+                    }
+                }else{
+                    if(parent[0].iSitOnIt){
+                        sibling.element.children[0].src = 'textures/emptySeat.png'
+                        parent[0].iSitOnIt = false
+                        parent[0].seat_empty = true
+                    }
+                }
             }
         }
     }

@@ -52,6 +52,7 @@ body {
     position: fixed;
     bottom: 30px;
     right: 30px;
+    transform: translateX(80px);
     width: 50px;
     height: 50px;
     display: grid;
@@ -63,26 +64,21 @@ body {
     font-size: 1.5em;
 }
 
+.add-btn span{
+    pointer-events: none;
+    user-select: none;
+}
+
+.add-btn.visible{
+    transform: translateX(0);    
+}
+
 .add-btn:hover{
     cursor: pointer;
     box-shadow: 0 0 10px rgba(0,0,0,.16);
     background-color: rgb(2, 173, 173);
 }
 
-.edit-btn{
-    position: fixed;
-    top: 30px;
-    right: 30px;
-    width: 50px;
-    height: 50px;
-    display: grid;
-    place-content: center;
-    border-radius: 50%;
-    background-color: rgba(0,0,0,.6);
-    color: white;   
-    transition: all .3s ease-in-out; 
-    font-size: 1.5em;
-}
 
 .chair-holder{
     width: 50px;
@@ -91,6 +87,7 @@ body {
     display: grid;
     place-items: center;
     border-radius: 50%;
+    overflow: hidden;
     transition: 
         box-shadow .3s ease-in-out,
         opacity .3s ease-in-out;
@@ -168,8 +165,105 @@ body {
     font-size: 1.5em;
 }
 
+.scaling-holder div span{
+    pointer-events: none;
+    user-select: none;
+}
+
 .scaling-holder div:hover{
     cursor: pointer;
     box-shadow: 0 0 15px rgba(0,0,0,.16);
     background-color: #81a061;
 }
+
+.edit-btn {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    display: inline-block;
+    margin: 0 auto;
+    opacity: .2;
+    transition: opacity .3s ease-in-out;
+}
+
+.edit-btn::after{
+    content: "Edit mode";
+    width: fit-content;
+    width: 80px;
+    position: absolute;
+    text-align: center;
+    background-color: #222;
+    padding: 5px;
+    border-radius: 3px;
+    color: #FFF;
+    left: 50%;
+    opacity: 0;
+    transform: translate(-50%, 0);
+    pointer-events: none;
+    transition: all .3s ease-in-out;
+}
+
+.edit-btn:hover::after{
+    transform: translate(-50%, 20px);
+    opacity: 1;
+}
+
+.edit-btn:hover{
+    opacity: 1;
+}
+  
+  .edit-btn .checkbox {
+    display: none;
+  }
+  
+  .edit-btn .checkbox:checked + label .slider-btn {
+    background: #45c1e0 url(https://cdn1.iconfinder.com/data/icons/material-core/18/check-16.png) 15% 50% no-repeat;
+  }
+  
+  .edit-btn .checkbox:checked + label .slider-btn:after {
+    margin-left: 100%;
+    background: -webkit-gradient(linear, left top, right top, from(#ececec), to(#f3f3f3));
+    background: linear-gradient(to right, #ececec, #f3f3f3);
+    -webkit-transform: translateX(-100%) rotate(180deg);
+            transform: translateX(-100%) rotate(180deg);
+  }
+  
+  .edit-btn .slider-btn {
+    position: relative;
+    display: block;
+    -webkit-box-sizing: content-box;
+            box-sizing: content-box;
+    width: 70px;
+    border: 3px solid;
+    border-top-color: #f3f3f3;
+    border-left-color: #f3f3f3;
+    border-bottom-color: #e6e6e6;
+    border-right-color: #e6e6e6;
+    border-radius: 23px;
+    height: 30px;
+    margin: 0 auto;
+    -webkit-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+    -webkit-box-shadow: inset 0 0 7px rgba(0, 0, 0, 0.3);
+            box-shadow: inset 0 0 7px rgba(0, 0, 0, 0.3);
+    background: #7f7f7f url(https://cdn3.iconfinder.com/data/icons/virtual-notebook/16/button_close-16.png) 85% 50% no-repeat;
+    cursor: pointer;
+  }
+  
+  .edit-btn .slider-btn::after {
+    content: "";
+    position: absolute;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    background: -webkit-gradient(linear, left top, right top, from(#bbbbbb), to(#f3f3f3));
+    background: linear-gradient(to right, #bbbbbb, #f3f3f3);
+    -webkit-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+    border: 4px solid #FFF;
+    -webkit-box-shadow: 5px 0 5px rgba(0, 0, 0, 0.2);
+            box-shadow: 5px 0 5px rgba(0, 0, 0, 0.2);
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+  }
+  
