@@ -114,6 +114,7 @@ body {
     text-decoration: none;
     color: beige;
     opacity: .5;
+    user-select: none;
 }
 
 .loading-bar
@@ -135,7 +136,7 @@ body {
     transition: transform 1.5s ease-in-out;
 }
 
-.scaling-holder{
+.btn-holder{
     position: fixed;
     right: 0;
     width: 100px;
@@ -144,16 +145,16 @@ body {
     height: 300px;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
     place-items: center;
     transition: transform .3s ease-in-out;
 }
 
-.scaling-holder.show{
+.btn-holder.show{
     transform: translate(0, -50%);
 }
 
-.scaling-holder div{
+.btn-holder div{
     width: 60px;
     height: 60px;
     display: grid;
@@ -165,12 +166,19 @@ body {
     font-size: 1.5em;
 }
 
-.scaling-holder div span{
+.btn-holder .remove-chair{
+    background-color: rgba(230, 25, 66, .1);
+}
+.btn-holder .remove-chair:hover{
+    background-color: rgb(185, 23, 55);
+}
+
+.btn-holder div span{
     pointer-events: none;
     user-select: none;
 }
 
-.scaling-holder div:hover{
+.btn-holder div:hover{
     cursor: pointer;
     box-shadow: 0 0 15px rgba(0,0,0,.16);
     background-color: #81a061;
@@ -392,7 +400,7 @@ body {
 }
 
 .cross-holder:hover::after{
-    transform: translate(-50%, 30px);
+    transform: translate(-50%, 40px);
     opacity: 1;
 }
 

@@ -10,9 +10,10 @@ import { gsap } from 'gsap'
 const addBtn = document.querySelector('.add-btn')
 const editBtn = document.querySelector('#edit')
 const loadingBarElement = document.querySelector('.loading-bar')
-const scaling_holder = document.querySelector('.scaling-holder')
+const btn_holder = document.querySelector('.btn-holder')
 const scale_up = document.querySelector('.scale-up')
 const scale_down = document.querySelector('.scale-down')
+const remove_chair = document.querySelector('.remove-chair')
 const crosshairElement = document.querySelector('.crosshair')
 const showCrosshair = document.querySelector('#show_cross')
 
@@ -195,6 +196,7 @@ function VideoElement( videoID, x, y, z, rY, scale ) {
     div.setAttribute("class", "video_element")
     
     const iframe = document.createElement( 'iframe' )
+    iframe.setAttribute('allowfullscreen', true)
     iframe.src = `https://www.youtube.com/embed/${videoID}?rel=0`
     div.appendChild( iframe )
     
@@ -295,7 +297,7 @@ let allowEdit = true
 editBtn.addEventListener("change", function(){
     if(!this.checked && elementSelected!==null && elementSelected[0].seat_empty){    
         elementSelected[0].children[0].element.children[0].src = 'textures/emptySeat.png' 
-        scaling_holder.classList.remove('show')             
+        btn_holder.classList.remove('show')             
     }
     allowEdit = this.checked ? true : false    
     if(allowEdit){
@@ -350,7 +352,7 @@ let lastSeatISitOn = ''
         }
     }
 
-    scaling_holder.classList.remove('show')
+    btn_holder.classList.remove('show')
 
 	const intersects = raycaster.intersectObjects( scene.children, true )
     for(let x=0; x< intersects.length; x++){
@@ -367,11 +369,11 @@ let lastSeatISitOn = ''
                 if(elementSelected[0].seat_empty)
                     sibling.element.children[0].src = 'textures/emptySeatHighlighted.png'
 
-                scaling_holder.classList.add('show')
+                btn_holder.classList.add('show')
 
             }else{
 
-                scaling_holder.classList.remove('show')
+                btn_holder.classList.remove('show')
 
                 if(parent[0].seat_empty){
                     
@@ -446,6 +448,18 @@ showCrosshair.addEventListener("change", function(){
     }
 })
 
+/***
+ * Remove chair from scene
+ */
+ remove_chair.addEventListener('click', function(){
+    if(elementSelected !== null){
+        elementSelected[0].clear()
+        elementSelected[0].remove()
+        elementSelected = null 
+
+        // remained.length===0 && btn_holder.classList.remove('show')
+    }
+ })
 
 /**
  * Animate
@@ -453,7 +467,6 @@ showCrosshair.addEventListener("change", function(){
 function tick() {
     controls.update()
     
-
     css3DRenderer.render(scene, camera)
     webglRenderer.render(scene, camera)
     requestAnimationFrame(tick)
