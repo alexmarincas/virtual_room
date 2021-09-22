@@ -69,8 +69,8 @@ window.addEventListener( 'mousemove', onMouseMove, false )
 const controls = new OrbitControls(camera, css3DContainer)
 controls.enableDamping = true
 controls.rotateSpeed = 2
-controls.enablePan = true
-controls.enableZoom = true
+controls.enablePan = false
+controls.enableZoom = false
 
   
 // Block iframe events when dragging camera
