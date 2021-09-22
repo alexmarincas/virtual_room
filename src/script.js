@@ -69,8 +69,8 @@ window.addEventListener( 'mousemove', onMouseMove, false )
 const controls = new OrbitControls(camera, css3DContainer)
 controls.enableDamping = true
 controls.rotateSpeed = 2
-controls.enablePan = false
-controls.enableZoom = false
+controls.enablePan = true
+controls.enableZoom = true
 
   
 // Block iframe events when dragging camera
@@ -340,7 +340,8 @@ dragControls.addEventListener('dragend', function (event) {
  */
 let elementSelected = null
 let lastSeatISitOn = ''
- css3DContainer.addEventListener("click", function(){
+
+css3DContainer.addEventListener("click", function(){
 
     raycaster.setFromCamera( mouse, camera )
 
@@ -356,7 +357,11 @@ let lastSeatISitOn = ''
 
 	const intersects = raycaster.intersectObjects( scene.children, true )
     for(let x=0; x< intersects.length; x++){
-        if(intersects[x].object.geometry.type!=='SphereGeometry' && intersects[x].object.geometry.type!=='BufferGeometry' && intersects[x].object.geometry.type!=='PlaneGeometry' ){
+        if(
+            intersects[x].object.geometry.type!=='SphereGeometry' && 
+            intersects[x].object.geometry.type!=='BufferGeometry' && 
+            intersects[x].object.geometry.type!=='PlaneGeometry' 
+        ){
             const currentObj = intersects[x].object
             const parent = chairsGroup.children.filter(obj => obj.uuid === currentObj.parentID)
             const sibling = parent[0].children[0]
@@ -407,7 +412,7 @@ let lastSeatISitOn = ''
             }
         }
     }
- })
+})
 
  /***
   * Scale elements
